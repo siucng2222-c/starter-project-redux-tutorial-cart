@@ -1,4 +1,11 @@
-import { CLEAR_CART, DECREASE, INCREASE, REMOVE, GET_TOTAL } from "./actions";
+import {
+  CLEAR_CART,
+  DECREASE,
+  INCREASE,
+  REMOVE,
+  GET_TOTAL,
+  TOGGLE_AMOUNT,
+} from "./actions";
 // reducer
 // two arguments - state, action
 // state = old state/state before update
@@ -16,15 +23,14 @@ const reducer = (state, action) => {
     case DECREASE:
       // console.log(DECREASE);
       // console.log(action.payload.amount);
-      const decreasedCart = state.cart
-        .map((item) => {
-          if (item.id === action.payload.id) {
-            item = { ...item, amount: item.amount - 1 };
-          }
+      const decreasedCart = state.cart.map((item) => {
+        if (item.id === action.payload.id) {
+          item = { ...item, amount: item.amount - 1 };
+        }
 
-          return item;
-        })
-        .filter((item) => item.amount > 0);
+        return item;
+      });
+      // .filter((item) => item.amount > 0);
 
       return { ...state, cart: decreasedCart };
     case INCREASE:
@@ -45,7 +51,7 @@ const reducer = (state, action) => {
         cart: state.cart.filter((item) => item.id !== action.payload.id),
       };
     case GET_TOTAL:
-      console.log(GET_TOTAL);
+      // console.log(GET_TOTAL);
       let { total, amount } = state.cart.reduce(
         (result, cartItem) => {
           // console.log(cartItem);
@@ -62,6 +68,23 @@ const reducer = (state, action) => {
 
       total = parseFloat(total.toFixed(2));
       return { ...state, total, amount };
+    case TOGGLE_AMOUNT:
+      console.log(TOGGLE_AMOUNT);
+      // One function to handle both increase and decrease amount
+      return {
+        ...state,
+        cart: state.cart.map((item) => {
+          if (item.id === action.payload.id) {
+            if (action.payload.toggleAction === "dec") {
+              return (item = { ...item, amount: item.amount - 1 });
+            }
+            if (action.payload.toggleAction === "inc") {
+              return (item = { ...item, amount: item.amount + 1 });
+            }
+          }
+          return item;
+        }),
+      };
     default:
       return state;
   }
