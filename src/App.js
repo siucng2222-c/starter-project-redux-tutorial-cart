@@ -25,21 +25,31 @@ let reducer = (state, action) => {
   console.log("in reducer");
   console.log({ state, action });
 
-  if (action.type === "DECREASE") {
-    console.log("Decrease Action triggered");
+  switch (action.type) {
+    case "DECREASE":
+      console.log("Decrease Action triggered");
 
-    // DON't do this - State should be IMMUTABLE
-    // state.count = state.count - 1;
+      // DON't do this - State should be IMMUTABLE
+      // state.count = state.count - 1;
 
-    // Make copy with updated state instead
-    return { count: state.count - 1 };
+      // Make copy with updated state instead
+      return { count: state.count - 1 };
+    case "INCREASE":
+      console.log("Increase Action triggered");
+      return { count: state.count + 1 };
+    case "RESET":
+      console.log("RESET Action triggered");
+      return { count: 0 };
+
+    default:
+      // ALWAYS return state object (either updated or old) from reducer to ensure consistency
+      return state;
+
+    // Test return string when createStore, then return object after action
+    // return "String instead of state object";
   }
-  // ALWAYS return state object (either updated or old) from reducer to ensure consistency
-  return state;
-
-  // Test return string when createStore, then return object after action
-  // return "String instead of state object";
 };
+
 console.log("createStore");
 const store = createStore(reducer, initialStore);
 
@@ -58,7 +68,12 @@ store.dispatch({ type: "DECREASE" });
 // store.dispatch({ type: "DECREASE" });
 
 // Test un-recognized action type
-store.dispatch({ type: "UNRECOGNIZED" });
+// store.dispatch({ type: "UNRECOGNIZED" });
+
+store.dispatch({ type: "INCREASE" });
+store.dispatch({ type: "RESET" });
+
+store.dispatch({ type: "INCREASE" });
 
 // Redux store can be passed to React component
 console.log(store.getState());
