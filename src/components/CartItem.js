@@ -1,6 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { DECREASE, INCREASE, REMOVE, TOGGLE_AMOUNT } from "../actions";
+import {
+  DECREASE,
+  INCREASE,
+  REMOVE,
+  TOGGLE_AMOUNT,
+  removeItem,
+} from "../actions";
 
 const CartItem = ({
   img,
@@ -66,7 +72,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     // Below map dispatch action type REMOVE to prop.remove
     // in addition, pass in payload object
     // and reference through "account" argument in reducer
-    remove: () => dispatch({ type: REMOVE, payload: { id } }),
+    // remove: () => dispatch({ type: REMOVE, payload: { id } }),
+    // Action Creators: Define type and payload spec directly in actions.js. Thus we don't need to re-write that in each different components
+    remove: () => dispatch(removeItem(id)),
     increase: () => dispatch({ type: INCREASE, payload: { id, amount } }),
     decrease: () => dispatch({ type: DECREASE, payload: { id, amount } }),
 
