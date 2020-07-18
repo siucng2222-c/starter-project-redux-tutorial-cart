@@ -4,13 +4,14 @@ import Navbar from "./components/Navbar";
 import CartContainer from "./components/CartContainer";
 // items
 import cartItems from "./cart-items";
-// action types
-import { DECREASE, INCREASE } from "./actions";
 // reducer
 import reducer from "./reducer";
+// react-redux:
+// Provider = wraps the whole react app
+// connect = used in components
+import { Provider } from "react-redux";
 
 // redux stuff
-
 // UI > Action > Reducer > Store > UI...
 
 // store - stores data, think of state
@@ -19,47 +20,22 @@ import { createStore } from "redux";
 
 // initial store
 const initialStore = {
-  count: 0,
-  name: "John Doe",
+  cart: cartItems,
+  total: 0,
+  amount: 0,
 };
 
-console.log("createStore");
+// redux store
 const store = createStore(reducer, initialStore);
-
-// dispatch method - send actions to the store
-// action(objects) - MUST HAVE TYPE PROPERTY - what kind of action
-// DON'T MUTATE THE STATE - redux built on IMMUTABILITY (copy)
-// Below call trigger the reducer
-console.log("dispatch");
-store.dispatch({ type: DECREASE });
-
-// Trigger dispatch multiple times to test update state multiple times (through reducer)
-// store.dispatch({ type: "DECREASE" });
-// store.dispatch({ type: "DECREASE" });
-// store.dispatch({ type: "DECREASE" });
-// store.dispatch({ type: "DECREASE" });
-// store.dispatch({ type: "DECREASE" });
-
-// Test un-recognized action type
-// store.dispatch({ type: "UNRECOGNIZED" });
-
-// Test other actions
-store.dispatch({ type: INCREASE });
-// store.dispatch({ type: RESET });
-// store.dispatch({ type: CHANGE_NAME });
-
-// Redux store can be passed to React component
-console.log(store.getState());
 
 function App() {
   // cart setup
 
   return (
-    <main>
-      {/* Pass Redux store to react component as prop */}
-      <Navbar cart={store.getState()} />
+    <Provider store={store}>
+      <Navbar />
       <CartContainer cart={cartItems} />
-    </main>
+    </Provider>
   );
 }
 
