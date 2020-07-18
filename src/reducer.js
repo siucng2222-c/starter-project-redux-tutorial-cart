@@ -15,10 +15,17 @@ const reducer = (state, action) => {
       };
     case DECREASE:
       console.log(DECREASE);
-      return state;
+      console.log(action.payload.amount);
+      return { ...state };
     case INCREASE:
       console.log(INCREASE);
-      return state;
+      console.log(action.payload.amount);
+      const updatedCart = state.cart.map((item) => {
+        if (item.id === action.payload.id)
+          item = { ...item, amount: item.amount + 1 };
+        return item;
+      });
+      return { ...state, cart: updatedCart };
     case REMOVE:
       console.log(REMOVE);
       console.log(action.payload.id);

@@ -44,7 +44,7 @@ const CartItem = ({
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   // ownProps = the props of this component
-  const { id } = ownProps;
+  const { id, amount } = ownProps;
 
   // REMEMBER to return an arrow function object
   // otherwise dispatch function will call directly when component render
@@ -53,8 +53,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     // in addition, pass in payload object
     // and reference through "account" argument in reducer
     remove: () => dispatch({ type: REMOVE, payload: { id } }),
-    increase: () => dispatch({ type: INCREASE }),
-    decrease: () => dispatch({ type: DECREASE }),
+    increase: () => dispatch({ type: INCREASE, payload: { id, amount } }),
+    decrease: () => dispatch({ type: DECREASE, payload: { id, amount } }),
   };
 };
 // No need to map state object to props, only need to map dispatch)( function)
