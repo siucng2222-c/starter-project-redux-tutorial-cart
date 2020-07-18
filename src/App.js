@@ -25,11 +25,15 @@ import { createStore } from "redux";
 //   amount: 5,
 // };
 
-// Can initialize store in reducer instead
-
 // redux store
 // const store = createStore(reducer, initialStore);
-const store = createStore(reducer);
+// Can initialize store in reducer instead
+// const store = createStore(reducer);
+// Can initialize store and Redux devtools in browser
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 function App() {
   // cart setup
