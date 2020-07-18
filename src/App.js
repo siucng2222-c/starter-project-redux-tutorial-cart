@@ -22,7 +22,7 @@ import { createStore } from "redux";
 const initialStore = {
   cart: cartItems,
   total: 0,
-  amount: 0,
+  amount: 5,
 };
 
 // redux store

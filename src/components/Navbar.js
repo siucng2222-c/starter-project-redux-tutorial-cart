@@ -1,6 +1,7 @@
 import React from "react";
-const Navbar = () => {
-  const count = 0;
+import { connect } from "react-redux";
+
+const Navbar = ({ amount }) => {
   return (
     <nav>
       <div className="nav-center">
@@ -10,7 +11,7 @@ const Navbar = () => {
             <path d="M16 6v2h2l2 12H0L2 8h2V6a6 6 0 1 1 12 0zm-2 0a4 4 0 1 0-8 0v2h8V6zM4 10v2h2v-2H4zm10 0v2h2v-2h-2z" />
           </svg>
           <div className="amount-container">
-            <p className="total-amount">{count}</p>
+            <p className="total-amount">{amount}</p>
           </div>
         </div>
       </div>
@@ -18,4 +19,15 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => {
+  // MUST return an object
+  // object attributes will become component's props
+  // prop values come from redux state
+  return {
+    amount: state.amount,
+  };
+};
+
+// react-redux "connect" is a react component itself
+// Pass in the react component we want redux to connect with
+export default connect(mapStateToProps)(Navbar);
