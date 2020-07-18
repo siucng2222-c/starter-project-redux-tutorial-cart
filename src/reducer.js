@@ -1,4 +1,4 @@
-import { CLEAR_CART, DECREASE, INCREASE, REMOVE } from "./actions";
+import { CLEAR_CART, DECREASE, INCREASE, REMOVE, GET_TOTAL } from "./actions";
 // reducer
 // two arguments - state, action
 // state = old state/state before update
@@ -44,6 +44,24 @@ const reducer = (state, action) => {
         ...state,
         cart: state.cart.filter((item) => item.id !== action.payload.id),
       };
+    case GET_TOTAL:
+      console.log(GET_TOTAL);
+      let { total, amount } = state.cart.reduce(
+        (result, cartItem) => {
+          // console.log(cartItem);
+          const { price, amount } = cartItem;
+          result.total += price * amount;
+          result.amount += amount;
+          return result;
+        },
+        {
+          total: 0,
+          amount: 0,
+        }
+      );
+
+      total = parseFloat(total.toFixed(2));
+      return { ...state, total, amount };
     default:
       return state;
   }
