@@ -14,7 +14,7 @@ import cartItems from "./cart-items";
 import { createStore } from "redux";
 
 // initial store
-const initialStore = { count: 0 };
+const initialStore = { count: 78 };
 
 // reducer
 // two arguments - state, action
@@ -22,12 +22,36 @@ const initialStore = { count: 0 };
 // action = what happened / what update
 // return updated  (or old) state
 let reducer = (state, action) => {
+  console.log("in reducer");
   console.log({ state, action });
 
+  if (action.type === "DECREASE") {
+    console.log("Decrease Action triggered");
+
+    // DON't do this - State should be IMMUTABLE
+    // state.count = state.count - 1;
+
+    // Make copy with updated state instead
+    return { count: state.count - 1 };
+  }
   // ALWAYS return state (either updated or old) from reducer
   return state;
 };
 const store = createStore(reducer, initialStore);
+
+// dispatch method - send actions to the store
+// action(objects) - MUST HAVE TYPE PROPERTY - what kind of action
+// DON'T MUTATE THE STATE - redux built on IMMUTABILITY (copy)
+// Below call trigger the reducer
+store.dispatch({ type: "DECREASE" });
+
+// Trigger dispatch multiple times to test update state multiple times (through reducer)
+// store.dispatch({ type: "DECREASE" });
+// store.dispatch({ type: "DECREASE" });
+// store.dispatch({ type: "DECREASE" });
+// store.dispatch({ type: "DECREASE" });
+// store.dispatch({ type: "DECREASE" });
+
 // Redux store can be passed to React component
 console.log(store.getState());
 
