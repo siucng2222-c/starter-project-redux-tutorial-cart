@@ -4,6 +4,9 @@ import Navbar from "./components/Navbar";
 import CartContainer from "./components/CartContainer";
 // items
 import cartItems from "./cart-items";
+// action types
+import { DECREASE, INCREASE } from "./actions";
+
 // redux stuff
 
 // UI > Action > Reducer > Store > UI...
@@ -29,7 +32,7 @@ let reducer = (state, action) => {
   console.log({ state, action });
 
   switch (action.type) {
-    case "DECREASE":
+    case DECREASE:
       console.log("Decrease Action triggered");
 
       // DON't do this - State should be IMMUTABLE
@@ -40,14 +43,16 @@ let reducer = (state, action) => {
 
       // If initialStore return multiple attributes, the above return object which have one attribute only will ruin the state
       // So should copy the old object before update new value
-      return { ...state, count: (state.count = 1) };
-    case "INCREASE":
+      return { ...state, count: state.count - 1 };
+    case INCREASE:
       console.log("Increase Action triggered");
       return { ...state, count: state.count + 1 };
-    case "RESET":
-      console.log("RESET Action triggered");
-      return { ...state, count: 0 };
-
+    // case RESET:
+    //   console.log("RESET Action triggered");
+    //   return { ...state, count: 0 };
+    // case CHANGE_NAME:
+    //   console.log("CHANGE_NAME Action triggered");
+    //   return { ...state, name: "Bob" };
     default:
       // ALWAYS return state object (either updated or old) from reducer to ensure consistency
       console.log("Default action");
@@ -66,7 +71,7 @@ const store = createStore(reducer, initialStore);
 // DON'T MUTATE THE STATE - redux built on IMMUTABILITY (copy)
 // Below call trigger the reducer
 console.log("dispatch");
-store.dispatch({ type: "DECREASE" });
+store.dispatch({ type: DECREASE });
 
 // Trigger dispatch multiple times to test update state multiple times (through reducer)
 // store.dispatch({ type: "DECREASE" });
@@ -76,10 +81,12 @@ store.dispatch({ type: "DECREASE" });
 // store.dispatch({ type: "DECREASE" });
 
 // Test un-recognized action type
-store.dispatch({ type: "UNRECOGNIZED" });
+// store.dispatch({ type: "UNRECOGNIZED" });
 
-store.dispatch({ type: "INCREASE" });
-store.dispatch({ type: "RESET" });
+// Test other actions
+store.dispatch({ type: INCREASE });
+// store.dispatch({ type: RESET });
+// store.dispatch({ type: CHANGE_NAME });
 
 // Redux store can be passed to React component
 console.log(store.getState());
