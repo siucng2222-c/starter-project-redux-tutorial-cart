@@ -14,7 +14,10 @@ import cartItems from "./cart-items";
 import { createStore } from "redux";
 
 // initial store
-const initialStore = { count: 0 };
+const initialStore = {
+  count: 0,
+  name: "John Doe",
+};
 
 // reducer
 // two arguments - state, action
@@ -33,16 +36,21 @@ let reducer = (state, action) => {
       // state.count = state.count - 1;
 
       // Make copy with updated state instead
-      return { count: state.count - 1 };
+      // return { count: state.count - 1 };
+
+      // If initialStore return multiple attributes, the above return object which have one attribute only will ruin the state
+      // So should copy the old object before update new value
+      return { ...state, count: (state.count = 1) };
     case "INCREASE":
       console.log("Increase Action triggered");
-      return { count: state.count + 1 };
+      return { ...state, count: state.count + 1 };
     case "RESET":
       console.log("RESET Action triggered");
-      return { count: 0 };
+      return { ...state, count: 0 };
 
     default:
       // ALWAYS return state object (either updated or old) from reducer to ensure consistency
+      console.log("Default action");
       return state;
 
     // Test return string when createStore, then return object after action
@@ -68,12 +76,10 @@ store.dispatch({ type: "DECREASE" });
 // store.dispatch({ type: "DECREASE" });
 
 // Test un-recognized action type
-// store.dispatch({ type: "UNRECOGNIZED" });
+store.dispatch({ type: "UNRECOGNIZED" });
 
 store.dispatch({ type: "INCREASE" });
 store.dispatch({ type: "RESET" });
-
-store.dispatch({ type: "INCREASE" });
 
 // Redux store can be passed to React component
 console.log(store.getState());
