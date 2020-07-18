@@ -6,12 +6,22 @@ import {
   GET_TOTAL,
   TOGGLE_AMOUNT,
 } from "./actions";
+
+import cartItems from "./cart-items";
+// Initialize store in reducer
+const initialStore = {
+  cart: cartItems,
+  total: 0,
+  amount: 0,
+};
+
 // reducer
 // two arguments - state, action
 // state = old state/state before update
 // action = what happened / what update
 // return updated  (or old) state
-const reducer = (state, action) => {
+// Can initialize store in reducer using default parameter value if the initial state of a reducer is simple
+const reducer = (state = initialStore, action) => {
   //   console.log("in reducer", action.type);
   switch (action.type) {
     case CLEAR_CART:
