@@ -19,12 +19,12 @@ const Navbar = ({ amount }) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (store) => {
   // MUST return an object
   // object attributes will become component's props
-  // prop values come from redux state
+  // prop values come from redux store
   return {
-    amount: state.amount,
+    amount: store.amount,
   };
 };
 
