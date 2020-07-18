@@ -14,21 +14,31 @@ const reducer = (state, action) => {
         cart: [],
       };
     case DECREASE:
-      console.log(DECREASE);
-      console.log(action.payload.amount);
-      return { ...state };
+      // console.log(DECREASE);
+      // console.log(action.payload.amount);
+      const decreasedCart = state.cart
+        .map((item) => {
+          if (item.id === action.payload.id) {
+            item = { ...item, amount: item.amount - 1 };
+          }
+
+          return item;
+        })
+        .filter((item) => item.amount > 0);
+
+      return { ...state, cart: decreasedCart };
     case INCREASE:
-      console.log(INCREASE);
-      console.log(action.payload.amount);
-      const updatedCart = state.cart.map((item) => {
+      // console.log(INCREASE);
+      // console.log(action.payload.amount);
+      const increasedCart = state.cart.map((item) => {
         if (item.id === action.payload.id)
           item = { ...item, amount: item.amount + 1 };
         return item;
       });
-      return { ...state, cart: updatedCart };
+      return { ...state, cart: increasedCart };
     case REMOVE:
-      console.log(REMOVE);
-      console.log(action.payload.id);
+      // console.log(REMOVE);
+      // console.log(action.payload.id);
 
       return {
         ...state,
